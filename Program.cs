@@ -1,5 +1,6 @@
 ﻿using blazniva_krizovatka;
 using blazniva_krizovatka.Tree;
+using System.Diagnostics;
 using System.Drawing;
 
 namespace BlaznivaKrizovatka{
@@ -10,19 +11,29 @@ namespace BlaznivaKrizovatka{
             Map createdMap = CreateMap();
             createdMap.PrintMap();
 
+
             string map = "((cervene 2 3 2 h)(oranzove 2 3 4 v)(zlte 2 3 5 v))";
-            Map customMap = CreateMap(map);
+            Map customMap = CreateMap(map,5,4);
 
             DecisionTree tree = new DecisionTree();
-
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             //var solutionTree = tree.TrySolveDFS(createdMap);
-            var solutionTree = tree.TrySolveBFS(customMap);
+            var solutionTree = tree.TrySolveDFS(createdMap);
+
+            stopwatch.Stop();
+            Console.WriteLine($"Elapsed: {stopwatch.ElapsedMilliseconds}ms");
 
             var stepList = new List<string>();
             string prevStep = "";
             int stepCount = 1;
+            if(solutionTree == null)
+                Console.WriteLine("No solution");
+
             while(solutionTree.Parent != null)
             {
+
+              
                 var direction = solutionTree.Car.Orientation == Orientation.HORIZONTAL ? (solutionTree.Direction == 1 ? "RIGHT" : "LEFT") : (solutionTree.Direction == 1 ? "DOWN" : "UP");
                 var step = $"{direction} - {solutionTree.Car.Color}";
                
@@ -37,24 +48,29 @@ namespace BlaznivaKrizovatka{
                 }
                 else
                 {
-                    //stepList.Add($"{direction} - {solutionTree.Car.Color} - {1}");
+                   // stepList.Add($"{direction} - {solutionTree.Car.Color} - {1}");
                     stepCount = 1;
                 }
                 stepList.Add($"{direction} - {solutionTree.Car.Color} - {1}");
 
                 solutionTree = solutionTree.Parent;
                 prevStep = step;
+
+                if (solutionTree.MapConfiguration.GetHash() == createdMap.GetHash())
+                    break;
             }
 
             foreach(var line in stepList)
                 Console.WriteLine(line);
 
+            
+
         }
 
-        public static Map CreateMap(string mapString = null)
+        public static Map CreateMap(string mapString = null, int width = 6, int height = 6)
         {
-             mapString ??= "((cervene 2 3 2 h)(oranzove 2 1 1 h)(zlte 3 2 1 v)(fialove 2 5 1 v)(zelene 3 2 4 v)(svetlomodre 3 6 3 h)(sive 2 5 5 h)(tmavomodre 3 1 6 v))";
-            Map newMap = new Map(5, 4);
+            mapString ??= "((cervene 2 3 2 h)(oranzove 2 1 1 h)(zlte 3 2 1 v)(fialove 2 5 1 v)(zelene 3 2 4 v)(svetlomodre 3 6 3 h)(sive 2 5 5 h)(tmavomodre 3 1 6 v))";
+            Map newMap = new Map(width, height);
             string[] parts = mapString.Split("(");
             int id = 0;
             foreach(var part in parts)

@@ -6,6 +6,7 @@ using System.Text;
 
 namespace blazniva_krizovatka
 {
+    [Serializable]
     public class Map
     {
         public string[][] Values { get; set; }
@@ -83,41 +84,45 @@ namespace blazniva_krizovatka
         
 
             //Return a copy
-            var newCarList = new List<Car>();
-            foreach (var scar in CarList)
+          //  var newCarList = CarList.DeepClone();
+           /* foreach (var scar in CarList)
             {
                 newCarList.Add(new Car(new Position(scar.Position.X, scar.Position.Y), scar.Orientation, scar.Color, scar.Id)
                 {
                     Size = scar.Size
                 });
 
-            }
+            }*/
 
-            var newCar = newCarList.Find(ncar => ncar.Id == car.Id);
+
+      
+
+          //  var newValues = new string[Height][];
+
+            /*for (int i = 0; i < Height; i++)
+            {
+                newValues[i] = new string[Width];
+            }*/
+
+            /* for (int i = 0; i < Height; i++)
+                 for (int j = 0; j < Width; j++)
+                 {
+                     newValues[i][j] = Values[i][j];
+                 }*/
+
+          //  newValues = Values.DeepClone();
+            /*for(int  i = 0; i < Height; i++)
+                Array.Copy(Values[i], newValues[i], Values[i].Length);*/
+
+
+            var newMap = this.DeepClone();
+            var newCar = newMap.CarList.Find(ncar => ncar.Id == car.Id);
 
             if (!CanMoveCar(newCar, direction))
             {
                 return null;
             }
 
-            var newValues = new string[Height][];
-
-            for (int i = 0; i < Height; i++)
-            {
-                newValues[i] = new string[Width];
-            }
-
-            for (int i = 0; i < Height; i++)
-                for (int j = 0; j < Width; j++)
-                {
-                    newValues[i][j] = Values[i][j];
-                }
-
-            var newMap = new Map(Width, Height)
-            {
-                Values = newValues,
-                CarList = newCarList
-            };
 
             if (car.Orientation == Orientation.HORIZONTAL)
             {
@@ -236,21 +241,6 @@ namespace blazniva_krizovatka
 
         public int GetHash()
         {
-            /* long hash = 0;
-             uint p = 4294967291;
-             for (int i = 0; i < Height; i++)
-                 for (int j = 0; j < Width; j++)
-                 {
-                     var value = Values[i][j] == null ? "".GetHashCode() : Values[i][j].GetHashCode();
-                     hash = (hash) ^ (long)((Math.Pow(p, i) + Math.Pow(p, j))) * value;
-                 }
-             Console.WriteLine(hash);*/
-
-            /*  Console.WriteLine("Demo ------");
-              Console.WriteLine(mapHashString);
-              Console.WriteLine(mapHashString.ToString().GetHashCode());
-              Console.WriteLine("EndDemo ------");*/
-
             return this.ToString().GetHashCode();
         }
 

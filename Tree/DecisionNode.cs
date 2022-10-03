@@ -7,8 +7,6 @@ namespace blazniva_krizovatka.Tree
         public DecisionNode(Car car, Map map)
         {
             Car = car;
-            //Direction = direction;
-            //Step = step;
             MapConfiguration = map;
             Orientation = car.Orientation;
         }

@@ -41,7 +41,7 @@ namespace blazniva_krizovatka.Tree
             queue.Enqueue(node);
             node.Depth = 1;
            
-            if (node == null)
+           
                 CheckContains(map);
 
             while(queue.Count > 0)
@@ -134,13 +134,16 @@ namespace blazniva_krizovatka.Tree
             stack.Push(node);
             node.Depth = 1;
 
-            if (node == null)
+         
                 CheckContains(map);
+
+           // node = stack.Pop();
 
             while (stack.Count > 0)
             {
-                node = stack.Pop();
-
+                // node.MapConfiguration.PrintMap();
+                // Console.WriteLine(node.MapConfiguration.GetHash());
+                bool wasOperationPreformed = false;
                 foreach (var car in node.MapConfiguration.CarList)
                 {
                     if (node.MapConfiguration.CanMoveCar(car, 1))
@@ -150,12 +153,14 @@ namespace blazniva_krizovatka.Tree
                         var newNode = new CarDecisionNode(1, 1, movedCar, movedMap);
                         newNode.Depth = depth;
                         bool contains = CheckContains(movedMap);
-
+                        
                         if (!contains)
                         {
                             node.AddChildren(newNode);
                             stack.Push(newNode);
+                            node = newNode;
                             totalNodeCount++;
+                            wasOperationPreformed = true;
                         }
 
                         if (IsFinished(movedMap))
@@ -182,11 +187,15 @@ namespace blazniva_krizovatka.Tree
                         var newNode = new CarDecisionNode(-1, 1, movedCar, movedMap);
                         newNode.Depth = depth;
 
-                        if (!CheckContains(movedMap))
+                        bool contains = CheckContains(movedMap);
+                        if (!contains)
                         {
                             node.AddChildren(newNode);
                             stack.Push(newNode);
+                            node = newNode;
                             totalNodeCount++;
+                            wasOperationPreformed = true;
+
                         }
 
                         if (IsFinished(movedMap))
@@ -197,11 +206,20 @@ namespace blazniva_krizovatka.Tree
 
                         }
 
+                        if (!contains)
+                            break;
+
 
                         // node.MapConfiguration.MoveCar(car, -1);
                     }
 
+
+
                 }
+
+                if(!wasOperationPreformed)
+                node = node.Parent;
+
 
             }
 

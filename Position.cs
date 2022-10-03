@@ -1,6 +1,7 @@
 ﻿
 namespace blazniva_krizovatka
 {
+    [Serializable]
     public class Position : IEquatable<Position>
     {
         public int X { get; set; }

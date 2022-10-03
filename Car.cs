@@ -1,6 +1,7 @@
 ﻿
 namespace blazniva_krizovatka
 {
+    [Serializable]
     public class Car
     {
         public Position Position { get; set; }
