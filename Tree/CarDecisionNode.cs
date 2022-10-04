@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace blazniva_krizovatka.Tree
 {
     public class CarDecisionNode
@@ -24,8 +19,6 @@ namespace blazniva_krizovatka.Tree
         public Car Car { get; set; }
 
         public Map MapConfiguration { get; set; }
-
-        public Orientation Orientation { get; set; }
 
         public List<CarDecisionNode> Children { get; set; }
         public CarDecisionNode Parent { get; set; }

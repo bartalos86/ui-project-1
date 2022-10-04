@@ -1,7 +1,4 @@
 ﻿
-using System;
-using System.Drawing;
-using System.Runtime.InteropServices;
 using System.Text;
 
 namespace blazniva_krizovatka
@@ -81,40 +78,6 @@ namespace blazniva_krizovatka
 
         public Map MoveCar(Car car, int direction)
         {
-        
-
-            //Return a copy
-          //  var newCarList = CarList.DeepClone();
-           /* foreach (var scar in CarList)
-            {
-                newCarList.Add(new Car(new Position(scar.Position.X, scar.Position.Y), scar.Orientation, scar.Color, scar.Id)
-                {
-                    Size = scar.Size
-                });
-
-            }*/
-
-
-      
-
-          //  var newValues = new string[Height][];
-
-            /*for (int i = 0; i < Height; i++)
-            {
-                newValues[i] = new string[Width];
-            }*/
-
-            /* for (int i = 0; i < Height; i++)
-                 for (int j = 0; j < Width; j++)
-                 {
-                     newValues[i][j] = Values[i][j];
-                 }*/
-
-          //  newValues = Values.DeepClone();
-            /*for(int  i = 0; i < Height; i++)
-                Array.Copy(Values[i], newValues[i], Values[i].Length);*/
-
-
             var newMap = this.DeepClone();
             var newCar = newMap.CarList.Find(ncar => ncar.Id == car.Id);
 
@@ -161,8 +124,6 @@ namespace blazniva_krizovatka
 
                 }
             }
-
-            // car.ForceMove(direction * -1); //move back to preserve the default state
 
             return newMap;
         }

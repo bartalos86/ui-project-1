@@ -3,77 +3,118 @@ using blazniva_krizovatka.Tree;
 using System.Diagnostics;
 using System.Drawing;
 
-namespace BlaznivaKrizovatka{
+namespace BlaznivaKrizovatka
+{
 
-    public class Program{
+    public class Program
+    {
 
-        public static void Main(String[] args){        
-            Map createdMap = CreateMap();
-            createdMap.PrintMap();
+        public static void Main(String[] args)
+        {
+
+
+            TestCommonMaps();
+
+
+
 
 
             string map = "((cervene 2 3 2 h)(oranzove 2 3 4 v)(zlte 2 3 5 v))";
-            Map customMap = CreateMap(map,5,4);
+            Map customMap = CreateMap(map, 5, 4);
 
+          
+
+        }
+
+        public static void TestCommonMaps()
+        {
+            List<string> maps = new List<string>
+            {
+                "((cervene 2 3 1 h)(oranzove 3 2 4 v)(zlte 3 1 5 v)(fialove 2 4 5 h)(zelene 3 5 3 h))",
+                "((cervene 2 3 2 h)(oranzove 2 1 1 h)(zlte 3 2 1 v)(fialove 2 5 1 v)(zelene 3 2 4 v)(svetlomodre 3 6 3 h)(sive 2 5 5 h)(tmavomodre 3 1 6 v))"
+            };
+
+
+            foreach(var map in maps)
+            {
+                Map createdMap = CreateMap(map);
+                Console.WriteLine("Starting map");
+                createdMap.PrintMap();
+
+                TestCustomMap(createdMap);
+            }
+           
+        }
+
+        public static void TestCustomMap(Map createdMap)
+        {
             DecisionTree tree = new DecisionTree();
+            Console.WriteLine("BFS solution");
+            var solutionTreeBFS = MeasurePerformance(() => tree.TrySolveBFS(createdMap));
+             PrintSolution(solutionTreeBFS);
+
+
+            Console.WriteLine("==============");
+            Console.WriteLine("DFS solution");
+            var solutionTreeDFS = MeasurePerformance(() => tree.TrySolveDFS(createdMap));
+            Console.WriteLine("-----------------------------------------------");
+        }
+
+        public static T MeasurePerformance<T>(Func<T> methodToTest)
+        {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            //var solutionTree = tree.TrySolveDFS(createdMap);
-            var solutionTree = tree.TrySolveDFS(createdMap);
-
+            var result = methodToTest.Invoke();
             stopwatch.Stop();
             Console.WriteLine($"Elapsed: {stopwatch.ElapsedMilliseconds}ms");
+            return result;
+        }
 
-            var stepList = new List<string>();
-            string prevStep = "";
-            int stepCount = 1;
-            if(solutionTree == null)
-                Console.WriteLine("No solution");
-
-            while(solutionTree.Parent != null)
+        public static void PrintSolution(CarDecisionNode solutionTree)
+        {
+            if (solutionTree == null)
             {
+                Console.WriteLine("No solution");
+                return;
+            }
 
-              
-                var direction = solutionTree.Car.Orientation == Orientation.HORIZONTAL ? (solutionTree.Direction == 1 ? "RIGHT" : "LEFT") : (solutionTree.Direction == 1 ? "DOWN" : "UP");
-                var step = $"{direction} - {solutionTree.Car.Color}";
-               
-                if(prevStep == step)
+            Stack<Step> solutionStack = new Stack<Step>();
+
+            while (solutionTree.Parent != null)
+            {
+                var direction = solutionTree.Car.Orientation == Orientation.HORIZONTAL ? (solutionTree.Direction == 1 ? "VPRAVO" : "VLAVO") : (solutionTree.Direction == 1 ? "DOLE" : "HORE");
+                var carColor = solutionTree.Car.Color;
+
+                if (solutionStack.Count == 0)
                 {
-                    stepCount++;
-                }else if(stepCount > 1)
+                    solutionStack.Push(new Step() { Direction = direction, Car = carColor, Count = 1 });
+                    solutionTree = solutionTree.Parent;
+                    continue;
+                }
+
+                if (direction == solutionStack.Peek().Direction && carColor == solutionStack.Peek().Car)
                 {
-                    //stepList.Add($"{prevStep} - {stepCount}");
-                    //stepList.Add($"{direction} - {solutionTree.Car.Color} - {1}");
-                    stepCount = 1;
+                    solutionStack.Peek().Count++;
                 }
                 else
                 {
-                   // stepList.Add($"{direction} - {solutionTree.Car.Color} - {1}");
-                    stepCount = 1;
+                    solutionStack.Push(new Step() { Direction = direction, Car = carColor, Count = 1 });
                 }
-                stepList.Add($"{direction} - {solutionTree.Car.Color} - {1}");
 
                 solutionTree = solutionTree.Parent;
-                prevStep = step;
 
-                if (solutionTree.MapConfiguration.GetHash() == createdMap.GetHash())
-                    break;
             }
 
-            foreach(var line in stepList)
-                Console.WriteLine(line);
-
-            
-
+            foreach (var step in solutionStack)
+                Console.WriteLine(step);
         }
 
         public static Map CreateMap(string mapString = null, int width = 6, int height = 6)
         {
-            mapString ??= "((cervene 2 3 2 h)(oranzove 2 1 1 h)(zlte 3 2 1 v)(fialove 2 5 1 v)(zelene 3 2 4 v)(svetlomodre 3 6 3 h)(sive 2 5 5 h)(tmavomodre 3 1 6 v))";
             Map newMap = new Map(width, height);
             string[] parts = mapString.Split("(");
             int id = 0;
-            foreach(var part in parts)
+            foreach (var part in parts)
             {
                 if (string.IsNullOrEmpty(part))
                     continue;
@@ -97,11 +138,6 @@ namespace BlaznivaKrizovatka{
             }
 
             return newMap;
-        }
-
-        public static bool Solve()
-        {
-            return true;
         }
 
     }
