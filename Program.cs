@@ -30,6 +30,8 @@ namespace BlaznivaKrizovatka
         {
             List<string> maps = new List<string>
             {
+                "((cervene 2 3 3 h)(oranzove 3 2 5 v)(zlte 3 1 3 h)(fialove 4 1 2 v)(zelene 5 5 2 h))",
+                "((cervene 2 3 5 h)(oranzove 3 5 3 h)(zlte 3 2 4 v))",
                 "((cervene 2 3 1 h)(oranzove 3 2 4 v)(zlte 3 1 5 v)(fialove 2 4 5 h)(zelene 3 5 3 h))",
                 "((cervene 2 3 2 h)(oranzove 2 1 1 h)(zlte 3 2 1 v)(fialove 2 5 1 v)(zelene 3 2 4 v)(svetlomodre 3 6 3 h)(sive 2 5 5 h)(tmavomodre 3 1 6 v))"
             };
