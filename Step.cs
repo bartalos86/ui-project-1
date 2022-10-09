@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace blazniva_krizovatka
 {
+    //Setp class, used to summarized same steps after each other
     public class Step
     {
         public string Car { get; set; }

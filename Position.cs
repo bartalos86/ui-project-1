@@ -1,6 +1,7 @@
 ﻿
 namespace blazniva_krizovatka
 {
+    //Position class used to save the coordinates of cars
     [Serializable]
     public class Position : IEquatable<Position>
     {

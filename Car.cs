@@ -1,6 +1,7 @@
 ﻿
 namespace blazniva_krizovatka
 {
+    //Car class contains car specific information such as its position, orientation, color, size and id
     [Serializable]
     public class Car
     {
@@ -24,35 +25,6 @@ namespace blazniva_krizovatka
             Orientation = orientation;
             Color = color;
             Id = id;
-        }
-
-        public void ForceMove(int direction)
-        {
-            if(this.Orientation == Orientation.HORIZONTAL)
-            {
-                if (direction == 1)
-                {
-                    this.Position.X++;
-                }
-                else if(direction == -1)
-                {
-                    this.Position.X--;
-
-                }
-            }
-            else
-            {
-                if (direction == 1)
-                {
-                    this.Position.Y++;
-                }
-                else if (direction == -1)
-                {
-                    this.Position.Y--;
-
-                }
-            }
-          
         }
 
     }

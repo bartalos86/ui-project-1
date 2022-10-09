@@ -15,15 +15,10 @@ namespace BlaznivaKrizovatka
 
             TestCommonMaps();
 
-
-
-
-
             string map = "((cervene 2 3 2 h)(oranzove 2 3 4 v)(zlte 2 3 5 v))";
             Map customMap = CreateMap(map, 5, 4);
 
-          
-
+         
         }
 
         public static void TestCommonMaps()
@@ -48,6 +43,7 @@ namespace BlaznivaKrizovatka
            
         }
 
+        //Tests map for both BFS and DFS 
         public static void TestCustomMap(Map createdMap)
         {
             DecisionTree tree = new DecisionTree();
@@ -72,11 +68,12 @@ namespace BlaznivaKrizovatka
             return result;
         }
 
+        //Prints out and simplifies the steps to the solution
         public static void PrintSolution(CarDecisionNode solutionTree)
         {
             if (solutionTree == null)
             {
-                Console.WriteLine("No solution");
+                Console.WriteLine("No solution!");
                 return;
             }
 
@@ -94,6 +91,7 @@ namespace BlaznivaKrizovatka
                     continue;
                 }
 
+                //If the step is same as the last, just increments the count
                 if (direction == solutionStack.Peek().Direction && carColor == solutionStack.Peek().Car)
                 {
                     solutionStack.Peek().Count++;
@@ -111,6 +109,7 @@ namespace BlaznivaKrizovatka
                 Console.WriteLine(step);
         }
 
+        //Creates the map object from string representation
         public static Map CreateMap(string mapString = null, int width = 6, int height = 6)
         {
             Map newMap = new Map(width, height);
@@ -126,6 +125,7 @@ namespace BlaznivaKrizovatka
 
 
                 var orientation = data[4] == "h" ? Orientation.HORIZONTAL : Orientation.VERTICAL;
+                //Creates the car
                 var car = new Car()
                 {
                     Position = new Position(int.Parse(data[3]) - 1, int.Parse(data[2]) - 1),

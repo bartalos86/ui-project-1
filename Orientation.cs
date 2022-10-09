@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace blazniva_krizovatka
 {
+    //Used form limiting the orientation of a car
     public enum Orientation
     {
         VERTICAL, HORIZONTAL

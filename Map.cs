@@ -3,6 +3,7 @@ using System.Text;
 
 namespace blazniva_krizovatka
 {
+    //Map class, stores the speciific informations to the map, such as thhe list of cars map representation as 2D array and size
     [Serializable]
     public class Map
     {
@@ -49,7 +50,7 @@ namespace blazniva_krizovatka
             return true;
 
         }
-
+        //Checks if the car with the given position can be inserted 
         private bool CheckInsert(Position position, string color, int size, Orientation orientation)
         {
             try
@@ -76,8 +77,10 @@ namespace blazniva_krizovatka
             return true;
         }
 
+        //Moves a car on the map
         public Map MoveCar(Car car, int direction)
         {
+            //Clones the map with all its properties in order to create a new instance of it
             var newMap = this.DeepClone();
             var newCar = newMap.CarList.Find(ncar => ncar.Id == car.Id);
 
@@ -86,7 +89,7 @@ namespace blazniva_krizovatka
                 return null;
             }
 
-
+            //Moves the car based on its orientation and the direction
             if (car.Orientation == Orientation.HORIZONTAL)
             {
                 if (direction == 1)
@@ -128,10 +131,12 @@ namespace blazniva_krizovatka
             return newMap;
         }
 
+        //Checks if the car could be moved in the given direction
         public bool CanMoveCar(Car car, int direction)
         {
             try
             {
+                //Checks if the next positions are empty based on orientation and direction
                 if (car.Orientation == Orientation.HORIZONTAL)
                 {
                     if (direction == 1)
@@ -157,6 +162,7 @@ namespace blazniva_krizovatka
                     }
                 }
             }
+            //If there is an exception, for example ArrayoutOfBoundsException then the car could not be moved
             catch (Exception)
             {
                 return false;
@@ -165,6 +171,7 @@ namespace blazniva_krizovatka
             return false;
         }
 
+        //Prints out the map
         public void PrintMap()
         {
             for (int i = 0; i < Height; i++)
@@ -181,6 +188,7 @@ namespace blazniva_krizovatka
             }
         }
 
+        //Converts the whole map to string
         public override string ToString()
         {
             StringBuilder mapHashString = new StringBuilder();
@@ -200,6 +208,7 @@ namespace blazniva_krizovatka
             return mapHashString.ToString();
         }
 
+        //Using the inbuilt GetHashCode() method returns the has representation of the map
         public int GetHash()
         {
             return this.ToString().GetHashCode();
