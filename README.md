@@ -14,9 +14,11 @@ More in-depth documentation of the program and the algorithm can be found in the
 
 ## Input
 Input for the map is hardcoded, but can be defined in the following format:
+
 `(({special car's color} {size} {position Y} {position X} {orientation})({car's color} {size} {position Y} {position X} {orientation})({car's color} {size} {position Y} {position X} {orientation}))`
 
 For example:
+
 `((red 2 3 3 h)(orange 3 2 5 v)(yellow 3 1 3 h)(pink 4 1 2 v)(green 5 5 2 h))`
 
 ## Output
@@ -25,9 +27,12 @@ If the map is solvable then the output of the program will be both BFS and DFS s
 - VPRAVO = RIGHT
 - HORE = UP
 - DOLE = DOWN
+
 The steps will contain the movement direction, color of the car and the amount of steps to move, in the following format:
 `{direction}({color} {numOfSteps})`
+
 For example:
+
 `VPRAVO(orange 1)`
 
 ## Result
